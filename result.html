@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attendance Result</title>
+  <style>
+    body { font-family: Arial; background: #f4f6f9; padding: 30px; }
+    .box { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+    th { background: #2b4f81; color: white; }
+    .status-good { color: green; font-weight: bold; }
+    .status-bad { color: red; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Attendance Summary</h2>
+    <p>Criteria: {{ criteria }}%</p>
+    <table>
+      <tr>
+        <th>Subject</th>
+        <th>Attended</th>
+        <th>Total</th>
+        <th>Percentage</th>
+        <th>Status</th>
+      </tr>
+      {% for subject in results %}
+      <tr>
+        <td>{{ subject.name }}</td>
+        <td>{{ subject.attended }}</td>
+        <td>{{ subject.total }}</td>
+        <td>{{ subject.percent }}%</td>
+        <td class="{{ 'status-good' if subject.percent >= criteria else 'status-bad' }}">
+          {{ 'OK' if subject.percent >= criteria else 'Low' }}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Enter Subject Attendance</title>
+  <style>
+    body { font-family: Arial; background: #f0f4f8; padding: 30px; }
+    .container { max-width: 700px; background: #fff; padding: 20px; margin: auto; border-radius: 10px; }
+    .subject-block { margin-bottom: 20px; background: #f8fbff; padding: 15px; border-radius: 5px; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 10px; margin-top: 5px; }
+    button { margin-top: 20px; width: 100%; padding: 12px; background: #2b4f81; color: white; border: none; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Enter Attendance Details</h2>
+    <form method="post" action="{{ url_for('calculate') }}">
+      {% for i in range(1, num_subjects + 1) %}
+        <div class="subject-block">
+          <label>Subject {{ i }} Name</label>
+          <input type="text" name="subject{{ i }}" required>
+          <label>Classes Attended</label>
+          <input type="number" name="attended{{ i }}" min="0" required>
+          <label>Total Classes</label>
+          <input type="number" name="total{{ i }}" min="1" required>
+        </div>
+      {% endfor %}
+      <button type="submit">Calculate</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attendance Setup</title>
+  <style>
+    body { font-family: Arial; background: #eef; padding: 30px; }
+    .box { background: #fff; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 10px; margin-top: 5px; }
+    button { margin-top: 20px; padding: 10px; width: 100%; background: #2b4f81; color: white; border: none; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Attendance Calculator</h2>
+    <form method="post">
+      <label>Number of Subjects</label>
+      <input type="number" name="num_subjects" min="1" max="20" required>
+
+      <label>Attendance Criteria (%)</label>
+      <input type="number" name="criteria" min="0" max="100" required>
+
+      <button type="submit">Next</button>
+    </form>
+  </div>
+</body>
+</html>
