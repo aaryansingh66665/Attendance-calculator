@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Attendance Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9f7ef;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>University Attendance Calculator</h1>
+    <div class="container">
+        <label for="totalClasses">Total Classes:</label>
+        <input type="number" id="totalClasses" min="1" placeholder="e.g., 100">
+
+        <label for="attendedClasses">Attended Classes:</label>
+        <input type="number" id="attendedClasses" min="0" placeholder="e.g., 80">
+
+        <label for="requiredPercentage">Required Attendance Percentage (%):</label>
+        <input type="number" id="requiredPercentage" min="0" max="100" placeholder="e.g., 75">
+
+        <div class="results" id="results">
+            <p>Enter values to see results.</p>
+        </div>
+    </div>
+
+    <script>
+        const totalClassesInput = document.getElementById('totalClasses');
+        const attendedClassesInput = document.getElementById('attendedClasses');
+        const requiredPercentageInput = document.getElementById('requiredPercentage');
+        const resultsDiv = document.getElementById('results');
+
+        function calculateAttendance() {
+            const total = parseInt(totalClassesInput.value);
+            const attended = parseInt(attendedClassesInput.value);
+            const required = parseFloat(requiredPercentageInput.value);
+
+            if (isNaN(total) || isNaN(attended) || isNaN(required) || total <= 0 || attended < 0 || required < 0 || required > 100) {
+                resultsDiv.innerHTML = '<p class="error">Please enter valid numbers. Total classes must be > 0, attended >= 0, required 0-100%.</p>';
+                return;
+            }
+
+            if (attended > total) {
+                resultsDiv.innerHTML = '<p class="error">Attended classes cannot exceed total classes.</p>';
+                return;
+            }
+
+            const currentPercentage = (attended / total) * 100;
+            const isEligible = currentPercentage >= required;
+
+            let output = `<p><strong>Current Attendance:</strong> ${currentPercentage.toFixed(2)}%</p>`;
+            output += `<p class="${isEligible ? 'success' : 'error'}"><strong>Status:</strong> ${isEligible ? 'Eligible' : 'Not Eligible'}</p>`;
+
+            if (isEligible) {
+                const remainingClasses = total - attended;
+                const maxMissable = Math.floor((total * (100 - required) / 100) - (total - attended));
+                output += `<p>You can miss up to <strong>${maxMissable >= 0 ? maxMissable : 0}</strong> more classes and still meet the requirement.</p>`;
+            } else {
+                const neededToAttend = Math.ceil((required / 100 * total) - attended);
+                output += `<p>You need to attend <strong>${neededToAttend > 0 ? neededToAttend : 0}</strong> more classes to meet the requirement.</p>`;
+            }
+
+            resultsDiv.innerHTML = output;
+        }
+
+        // Add event listeners for real-time updates
+        totalClassesInput.addEventListener('input', calculateAttendance);
+        attendedClassesInput.addEventListener('input', calculateAttendance);
+        requiredPercentageInput.addEventListener('input', calculateAttendance);
+    </script>
+</body>
+</html>
